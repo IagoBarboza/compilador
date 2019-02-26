@@ -49,4 +49,6 @@ public class Token {
     public String toString() {
         return "Token{" + "category=" + category + ", line=" + line + ", column=" + column + ", lexicalValue='" + lexicalValue + '\'' + '}';
     }
+
+
 }
