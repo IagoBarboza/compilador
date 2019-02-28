@@ -22,12 +22,13 @@ public class LexicalAnalyzer {
 
     public Token nextToken(){
         Token token = null;
-
         if (index < inputLine.length()) {
-            token = findToken(inputLine, index);
-            if (token != null) {
-                int endTokenPosition = token.getColumn() - 1 + token.getLexicalValue().length();
 
+            token = findToken(inputLine, index);
+
+            if (token != null) {
+
+                int endTokenPosition = token.getColumn() - 1 + token.getLexicalValue().length();
                 if (endTokenPosition > inputLine.length()) {
                     inputLine = reviseInputLine(fileManager.nextLine());
                     index = 0;
@@ -109,6 +110,7 @@ public class LexicalAnalyzer {
         pattern.put(Pattern.compile("\\["), Category.ABR_COL);
         pattern.put(Pattern.compile("\\]"), Category.FEC_COL);
         pattern.put(Pattern.compile("\\+\\+"), Category.OPE_CON);
+        pattern.put(Pattern.compile("%%"), Category.OPE_FOR_DEC);
         pattern.put(Pattern.compile("=="), Category.OPE_IGU);
         pattern.put(Pattern.compile("!="), Category.OPE_DIF);
         pattern.put(Pattern.compile("<="), Category.OPE_MEN_IGU);
@@ -125,6 +127,7 @@ public class LexicalAnalyzer {
         pattern.put(Pattern.compile(","), Category.VIRGULA);
         pattern.put(Pattern.compile(";"), Category.PON_VIR);
         pattern.put(Pattern.compile("="), Category.ATRIBUICAO);
+        pattern.put(Pattern.compile("%"), Category.OPE_FOR_CAM);
 
         pattern.put(Pattern.compile(letra + "(" + letra + "|" + digito +")*"),
                 Category.IDENTIFICADOR);
