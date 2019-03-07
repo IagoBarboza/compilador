@@ -11,46 +11,45 @@ import java.util.regex.Pattern;
 public class LexicalAnalyzer {
 
     private FileManager fileManager = null;
-    private String inputLine = null;
-    private int index = 0;
+    private String input = null;
+    private int columnIndex = 0;
+    private int lineIndex = 0;
+
 
     public LexicalAnalyzer(String file) {
         this.fileManager = new FileManager(file);
-        this.inputLine = reviseInputLine(fileManager.nextLine());
-        System.out.printf("%4d  %s\n", fileManager.currentLineIndex(), inputLine);
+        this.nextLine();
+        this.printFormatedLine();
     }
 
     public Token nextToken(){
         Token token = null;
-        if (index < inputLine.length()) {
+        if (columnIndex < input.length()) {
 
-            token = findToken(inputLine, index);
+            token = findToken(input, columnIndex);
 
             if (token != null) {
 
-                int endTokenPosition = token.getColumn() - 1 + token.getLexicalValue().length();
-                if (endTokenPosition > inputLine.length()) {
-                    inputLine = reviseInputLine(fileManager.nextLine());
-                    index = 0;
-                    System.out.printf("%4d  %s\n", fileManager.currentLineIndex(), inputLine);
+                columnIndex = token.getColumn() - 1 + token.getLexicalValue().length();
+
+                if (columnIndex > input.length()) {
+                    nextLine();
+                    printFormatedLine();
                     return nextToken();
-                } else {
-                    index = endTokenPosition;
                 }
             } else {
                 System.err.println("Token desconhecido!");
             }
         } else {
-            inputLine = reviseInputLine(fileManager.nextLine());
-            index = 0;
-            System.out.printf("%4d  %s\n", fileManager.currentLineIndex(), inputLine);
+            nextLine();
+            printFormatedLine();
             return nextToken();
         }
 
         return token;
     }
 
-    public Token findToken(String line, int index){
+    private Token findToken(String line, int index){
 
         String letra = "[A-Za-z]";
         String digito = "[0-9]";
@@ -58,27 +57,28 @@ public class LexicalAnalyzer {
 
         Map<Pattern, Category> pattern = new LinkedHashMap<Pattern, Category>();
 
-        pattern.put(Pattern.compile(digito+"+"),
-                Category.CON_INT);
-        pattern.put(Pattern.compile("\\["+digito+"(,"+digito+"+)*\\]"),
+        pattern.put(Pattern.compile(digito+"+"), Category.CON_INT);
+        pattern.put(Pattern.compile(digito+"+\\."+digito+"+"), Category.CON_FLO);
+        pattern.put(Pattern.compile("true|false"), Category.CON_BOO);
+        pattern.put(Pattern.compile("'("+ letra + "|" + digito + "|" + simbolo + ")'"), Category.CON_CHA);
+        pattern.put(Pattern.compile("\"("+ letra + "|" + digito + "|" + simbolo + ")*\""), Category.CON_STR);
+
+
+        pattern.put(Pattern.compile("\\[\\s*"+digito+"(\\s*,\\s*"+digito+"+)*\\s*\\]"),
                 Category.CON_INT_CAD);
-        pattern.put(Pattern.compile(digito+"+\\."+digito+"+"),
-                Category.CON_FLO);
-        pattern.put(Pattern.compile("\\["+digito+"+\\."+digito+"+(,"+digito+"+\\."+digito+"+)*\\]"),
+
+        pattern.put(Pattern.compile("\\[\\s*"+digito+"+\\."+digito+"+(\\s*,\\s*"+digito+"+\\."+digito+"+)*\\s*\\]"),
                 Category.CON_FLO_CAD);
-        pattern.put(Pattern.compile("true|false"),
-                Category.CON_BOO);
-        pattern.put(Pattern.compile("\\[true|false(,(true|false))*\\]"),
+
+        pattern.put(Pattern.compile("\\[\\s*(true|false)(\\s*,\\s*(true|false))*\\s*\\]"),
                 Category.CON_BOO_CAD);
-        pattern.put(Pattern.compile("'("+ letra + "|" + digito + "|" + simbolo + ")'"),
-                Category.CON_CHA);
-        pattern.put(Pattern.compile("\\['("+ letra + "|" + digito + "|" + simbolo + ")'"+
-                        "(,'("+ letra + "|" + digito + "|" + simbolo + ")')*\\]"),
+
+        pattern.put(Pattern.compile("\\[\\s*'("+ letra + "|" + digito + "|" + simbolo + ")'"+
+                                    "(\\s*,\\s*'("+ letra + "|" + digito + "|" + simbolo + ")')*\\s*\\]"),
                 Category.CON_CHA_CAD);
-        pattern.put(Pattern.compile("\"("+ letra + "|" + digito + "|" + simbolo + ")*\""),
-                Category.CON_STR);
-        pattern.put(Pattern.compile("\\[\"("+ letra + "|" + digito + "|" + simbolo + ")*\"" +
-                        "(,\"("+ letra + "|" + digito + "|" + simbolo + ")*\")*\\]"),
+
+        pattern.put(Pattern.compile("\\[\\s*\"("+ letra + "|" + digito + "|" + simbolo + ")*\"" +
+                                    "(\\s*,\\s*\"("+ letra + "|" + digito + "|" + simbolo + ")*\")*\\s*\\]"),
                 Category.CON_STR_CAD);
 
         pattern.put(Pattern.compile("main"), Category.MAIN);
@@ -128,23 +128,20 @@ public class LexicalAnalyzer {
         pattern.put(Pattern.compile(";"), Category.PON_VIR);
         pattern.put(Pattern.compile("="), Category.ATRIBUICAO);
         pattern.put(Pattern.compile("%"), Category.OPE_FOR_CAM);
-
-        pattern.put(Pattern.compile(letra + "(" + letra + "|" + digito +")*"),
-                Category.IDENTIFICADOR);
-
-        Token token = null;
+        pattern.put(Pattern.compile(letra + "(" + letra + "|" + digito +")*"), Category.IDENTIFICADOR);
 
         //Remove spaces at the begin of line, and calculates how much spaces were removed
         String noSpacesAtBeginLine = line.substring(index).replaceFirst("\\s*", "");
         int removedSpacesAtBegin = line.substring(index).length() - noSpacesAtBeginLine.length();
 
+        Token token = null;
         for (Map.Entry<Pattern, Category> element : pattern.entrySet()) {
 
             Matcher matcher = element.getKey().matcher(noSpacesAtBeginLine);
 
             if(matcher.find()){
                 if(matcher.start() == 0) {
-                    token = new Token(element.getValue(), fileManager.currentLineIndex(), index + removedSpacesAtBegin + matcher.start() + 1, matcher.group());
+                    token = new Token(element.getValue(), lineIndex, index + removedSpacesAtBegin + matcher.start() + 1, matcher.group());
                     return token;
                 }
             }
@@ -153,7 +150,18 @@ public class LexicalAnalyzer {
         return token;
     }
 
-    private String reviseInputLine(String line){
+    private void nextLine(){
+        this.input = removeCommentsAndSpacesAtEndOfLine(fileManager.nextLine());
+        this.lineIndex = fileManager.getLineIndex();
+        this.columnIndex = 0;
+    }
+
+    private String removeCommentsAndSpacesAtEndOfLine(String line){
         return line.replaceAll("//.*", "").replaceAll("\\s*$", "");
     }
+
+    private void printFormatedLine(){
+        System.out.printf("%4d  %s\n", fileManager.getLineIndex(), input);
+    }
+
 }

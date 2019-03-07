@@ -45,10 +45,8 @@ public class Token {
         this.lexicalValue = lexicalValue;
     }
 
-    @Override
-    public String toString() {
-        return "Token{" + "category=" + category + ", line=" + line + ", column=" + column + ", lexicalValue='" + lexicalValue + '\'' + '}';
+    public void printFormatedToken(){
+        System.out.printf("        [%04d, %04d] (%04d, %20s) {%s}\n", this.getLine(), this.getColumn(), this.getCategory().getValue(), this.getCategory(), this.getLexicalValue());
     }
-
 
 }

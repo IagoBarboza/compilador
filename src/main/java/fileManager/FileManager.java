@@ -9,8 +9,8 @@ public class FileManager {
 
     private BufferedReader bufferReader = null;
 
-    private String currentLine = null;
-    private int currentLineIndex = 0;
+    private String line = null;
+    private int lineIndex = 0;
 
     public FileManager(String file) {
         try {
@@ -22,10 +22,10 @@ public class FileManager {
 
     public String nextLine(){
         try {
-            currentLine = bufferReader.readLine();
-            if (currentLine != null) {
-                currentLineIndex++;
-                return currentLine;
+            line = bufferReader.readLine();
+            if (line != null) {
+                lineIndex++;
+                return line;
             } else {
                 return "EOF";
             }
@@ -35,12 +35,12 @@ public class FileManager {
         return null;
     }
 
-    public String currentLine(){
-        return currentLine;
+    public String getLine(){
+        return line;
     }
 
-    public int currentLineIndex(){
-        return currentLineIndex;
+    public int getLineIndex(){
+        return lineIndex;
     }
 
 }
