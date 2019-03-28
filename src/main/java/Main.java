@@ -5,13 +5,12 @@ import token.Token;
 public class Main {
 
     public static void main(String args[]) {
-        String file = "/Users/joaocorreia/fib.tc";
+        Token token = null;
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(args[0]);
 
-        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(file);
-        Token token = lexicalAnalyzer.nextToken();
-        while (token.getCategory() != Category.EOF){
+        do {
             token = lexicalAnalyzer.nextToken();
             token.printFormatedToken();
-        }
+        } while (token.getCategory() != Category.EOF);
     }
 }

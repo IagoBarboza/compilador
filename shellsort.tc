@@ -1,0 +1,52 @@
+fun void shellsort(int vet[], int size){
+    var int i;
+    var int j;
+    var in value;
+    var int gap = 1;
+
+    while(gap > 1){
+        gap = 3 * gap + 1;
+    }
+
+    while(gap > 1){
+        gap = gap / 3;
+        for(i in gap to size){
+            value = vet[i];
+            j = i;
+            while(j >= gap && value < vet[j - gap]){
+                vet[j] = vet[j - gap];
+                j = j - gap;
+            }
+            vet[j] = value;
+        }
+    }
+
+}
+
+fun int main(){
+    var int n;
+    var int i;
+    print("Digite o tamanho do array: ");
+    read(n);
+    var int a[n];
+
+    //lê elementos do array
+    for(i in 0 to n){
+        read(a[i]);
+    }
+
+    print("Array original: ");
+    for(i in 0 to n){
+        print(a[i] ++ " ");
+    }
+
+    shellsort(a, n);
+
+    print("Array ordenado: ");
+    for(i in 0 to n){
+        print(a[i] ++ " ");
+    }
+
+
+    return 0;
+}

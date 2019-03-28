@@ -1,0 +1,23 @@
+fun int fib(int n){
+    var int aux;
+    var int a = 0;
+    var int b = 1;
+    var int i = 0;
+
+    while(i < n){
+        aux = a + b;
+        a = b;
+        b = aux;
+        if(aux > n){
+            print(a);
+            break;
+        }
+        print(a ++ ",");
+    }
+}
+
+fun int main(){
+    var int n;
+    read(n);
+    fib(n);
+}
