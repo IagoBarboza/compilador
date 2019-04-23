@@ -31,7 +31,6 @@ public class LexicalAnalyzer {
         pattern.put(Pattern.compile("\"("+ letra + "|" + digito + "|" + simbolo + ")*\""), Category.CON_STR);
 
 
-        pattern.put(Pattern.compile("main"), Category.MAIN);
         pattern.put(Pattern.compile("void"), Category.VOID);
         pattern.put(Pattern.compile("int"), Category.TIP_INT);
         pattern.put(Pattern.compile("float"), Category.TIP_FLO);
@@ -60,24 +59,15 @@ public class LexicalAnalyzer {
         pattern.put(Pattern.compile("\\["), Category.ABR_COL);
         pattern.put(Pattern.compile("\\]"), Category.FEC_COL);
         pattern.put(Pattern.compile("\\+\\+"), Category.OPE_CON);
-        pattern.put(Pattern.compile("%%"), Category.OPE_FOR_DEC);
-        pattern.put(Pattern.compile("=="), Category.OPE_IGU);
-        pattern.put(Pattern.compile("!="), Category.OPE_DIF);
-        pattern.put(Pattern.compile("<="), Category.OPE_MEN_IGU);
-        pattern.put(Pattern.compile(">="), Category.OPE_MAI_IGU);
-        pattern.put(Pattern.compile("<"), Category.OPE_MEN);
-        pattern.put(Pattern.compile(">"), Category.OPE_MAI);
-        pattern.put(Pattern.compile("\\|\\|"), Category.OPE_OU);
-        pattern.put(Pattern.compile("&&"), Category.OPE_E);
-        pattern.put(Pattern.compile("\\+"), Category.OPE_ADI);
-        pattern.put(Pattern.compile("-"), Category.OPE_SUB);
-        pattern.put(Pattern.compile("\\*"), Category.OPE_MUL);
-        pattern.put(Pattern.compile("\\/"), Category.OPE_DIV);
+        pattern.put(Pattern.compile("%% | %"), Category.OPE_LIM);
+        pattern.put(Pattern.compile("==|!=|<|>|>=|<="), Category.OPE_REL);
+        pattern.put(Pattern.compile("\\|\\||&&"), Category.OPE_LOG);
+        pattern.put(Pattern.compile("\\+|-"), Category.OPE_ADI);
+        pattern.put(Pattern.compile("\\*|\\/"), Category.OPE_MUL);
         pattern.put(Pattern.compile("!"), Category.OPE_NEG);
         pattern.put(Pattern.compile(","), Category.VIRGULA);
         pattern.put(Pattern.compile(";"), Category.PON_VIR);
         pattern.put(Pattern.compile("="), Category.ATRIBUICAO);
-        pattern.put(Pattern.compile("%"), Category.OPE_FOR_CAM);
 
         pattern.put(Pattern.compile(letra + "(" + letra + "|" + digito +")*"), Category.IDENTIFICADOR);
 
