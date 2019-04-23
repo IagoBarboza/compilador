@@ -96,11 +96,14 @@ public class LexicalAnalyzer {
 
                 columnIndex = token.getColumn() - 1 + token.getLexicalValue().length();
 
+                //talvez não precise
                 if (columnIndex > input.length()) {
+                    System.out.println("TESTE");
                     nextLine();
                     printFormatedLine();
                     return nextToken();
                 }
+
             } else {
                 System.err.println("Token desconhecido!");
             }
