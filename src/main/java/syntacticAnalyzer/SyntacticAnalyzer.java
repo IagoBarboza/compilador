@@ -203,20 +203,40 @@ public class SyntacticAnalyzer {
         System.out.printf("          %s\n", "LParam = Param LParam1");
         fParam();
         fLParam1();
+
     }
 
     //LParam1 = ',' Param LParam1 | epsilon
     public void fLParam1(){
+        if(token.getCategory() == Category.VIRGULA){
+            System.out.printf("          %s\n", "LParam1 = ',' Param LParam1");
+            nextToken();
+            fParam();
+            fLParam1();
+        }
+        System.out.printf("          %s\n", "epsilon");
 
     }
 
     //Param = Type 'id' '[' ']' | Type 'id' | epsilon
     public void fParam(){
-
+        fType();
+        nextToken();
+        if(token.getCategory() == Category.IDENTIFICADOR){
+            nextToken();
+            if (token.getCategory() == Category.ABR_COL){
+                nextToken();
+                if (token.getCategory() == Category.FEC_COL){
+                    nextToken();
+                }
+            }
+        }
+        else
     }
 
     //LSent = Sent LSent | epsilon
     public void fLSent(){
+
 
     }
 
@@ -240,6 +260,7 @@ public class SyntacticAnalyzer {
     **/
     public void fCommand(){
 
+        
     }
 
     //LArg = Arg LArgR
