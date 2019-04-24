@@ -198,40 +198,48 @@ public class SyntacticAnalyzer {
         }
     }
 
-    //LParam = Param LParam1
+    //LParam = Param LParamR | epsilon
     public void fLParam(){
-        System.out.printf("          %s\n", "LParam = Param LParam1");
-        fParam();
-        fLParam1();
-
-    }
-
-    //LParam1 = ',' Param LParam1 | epsilon
-    public void fLParam1(){
-        if(token.getCategory() == Category.VIRGULA){
-            System.out.printf("          %s\n", "LParam1 = ',' Param LParam1");
+        if(token.getCategory() == Category.VAR) {
+            System.out.printf("          %s\n", "LParam = Param LParamR");
             nextToken();
             fParam();
-            fLParam1();
+            fLParam();
+        }else{
+            System.out.printf("          %s\n", "LParam = epsilon");
         }
-        System.out.printf("          %s\n", "epsilon");
-
     }
 
-    //Param = Type 'id' '[' ']' | Type 'id' | epsilon
+    //LParamR = ',' Param LParamR | epsilon
+    public void fLParamR(){
+        if(token.getCategory() == Category.VIRGULA){
+            System.out.printf("          %s\n", "LParamR = ',' Param LParamR");
+            nextToken();
+            fParam();
+            fLParamR();
+        }else {
+            System.out.printf("          %s\n", "LParamR = epsilon");
+        }
+    }
+
+    //Param = Type 'id' '[' ']' | Type 'id'
     public void fParam(){
         fType();
-        nextToken();
         if(token.getCategory() == Category.IDENTIFICADOR){
             nextToken();
             if (token.getCategory() == Category.ABR_COL){
                 nextToken();
                 if (token.getCategory() == Category.FEC_COL){
                     nextToken();
+                }else{
+                    printErro("] esperado.");
                 }
+            }else{
+                printErro("Identificador esperado");
             }
+        }else{
+            printErro("Tipo esperado.");
         }
-        else
     }
 
     //LSent = Sent LSent | epsilon
@@ -288,18 +296,18 @@ public class SyntacticAnalyzer {
 
     }
 
-    //LParamR = ParamR LParamR1
-    public void fLParamR(){
+    //LParamRead = ParamRead LParamReadR
+    public void fLParamRead(){
 
     }
 
-    //LParamR1 = ',' ParamR LParamR1 | epsilon
-    public void fLParamR1(){
+    //LParamReadR = ',' ParamRead LParamReadR | epsilon
+    public void fLParamReadR(){
 
     }
 
-    //ParamR = 'id'
-    public void fParamR(){
+    //ParamRead = 'id'
+    public void fParamRead(){
 
     }
 
