@@ -231,7 +231,7 @@ public class SyntacticAnalyzer {
                 }
             }
         }
-        else
+        //else
     }
 
     //LSent = Sent LSent | epsilon
@@ -259,8 +259,70 @@ public class SyntacticAnalyzer {
         Command = Return
     **/
     public void fCommand(){
+        if(token.getCategory() == Category.CONTINUE){
+            nextToken();
+            if (token.getCategory() == Category.PON_VIR){
+                nextToken();
+            }
+        }
+        else if(token.getCategory() == Category.BREAK){
+            if (token.getCategory() == Category.PON_VIR){
+                nextToken();
+            }
+        }
+        else if(token.getCategory() == Category.IDENTIFICADOR){
+            nextToken();
+            if(token.getCategory() == Category.ABR_COL){
+                nextToken();
+                fExpArit();
+                if(token.getCategory() == Category.FEC_COL){
+                    nextToken();
+                    fAtr();
+                    if (token.getCategory() == Category.PON_VIR){
+                        nextToken();
+                    }
+                }
+            }
+        }
+        else if(token.getCategory() == Category.IDENTIFICADOR){
+            nextToken();
+            if(token.getCategory() == Category.ABR_PAR){
+                nextToken();
+                fLArg();
+                if(token.getCategory() == Category.FEC_PAR){
+                    nextToken();
+                    if(token.getCategory() == Category.PON_VIR){
+                        nextToken();
+                    }
+                }
+            }
+        }
+        else if(token.getCategory() == Category.IDENTIFICADOR){
+            nextToken();
+            fAtr();
+            if (token.getCategory() == Category.PON_VIR){
+                nextToken();
+            }
+        }
+        else if(token.getCategory() == Category.OUTPUT){
+            fPrint();
+            nextToken();
+            if(token.getCategory() == Category.PON_VIR){
+                nextToken();
+            }
+        }
+        else if(token.getCategory() == Category.INPUT){
+            fRead();
+            nextToken();
+            if(token.getCategory() == Category.PON_VIR){
+                nextToken();
+            }
+        }
+        else if(token.getCategory() == Category.FOR){
+            fFor();
+            nextToken();
+        }
 
-        
     }
 
     //LArg = Arg LArgR
