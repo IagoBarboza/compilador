@@ -10,126 +10,106 @@ public class SyntacticAnalyzer {
     private Token token;
     private String file;
 
-    public  SyntacticAnalyzer(String file){
+    public SyntacticAnalyzer(String file) {
         lexAnalyzer = new LexicalAnalyzer(file);
         nextToken();
         fProgram();
     }
 
-    private void nextToken(){
+    private void nextToken() {
         token = lexAnalyzer.nextToken();
     }
 
-    public void analyzer(){
+    public void analyzer() {
         fProgram();
     }
 
 
     //Program = LDecl
-    public void fProgram(){
+    public void fProgram() {
         System.out.printf("          %s\n", "Program = LDecl");
         fLDecl();
     }
 
-    //LDecl = Decl | LDeclr
-    public void fLDecl(){
-        System.out.printf("          %s\n", "LDecl = Decl | LDeclr");
+    //LDecl = Decl LDeclr
+    public void fLDecl() {
+        System.out.printf("          %s\n", "LDecl = Decl LDeclr");
         fDecl();
-        fLDeclr();
+        fLDeclR();
     }
 
     //LDeclr = Decl LDeclr | epsilon
-    public void fLDeclr(){
-        System.out.printf("          %s\n", "LDeclr = Decl LDeclr | epsilon");
+    public void fLDeclR() {
+        System.out.printf("          %s\n", "LDeclr = Decl LDeclr");
 
-        if(token.getCategory() == Category.VAR || token.getCategory() == Category.FUN){
+        if (token.getCategory() == Category.VAR || token.getCategory() == Category.FUN) {
             fDecl();
-            fLDeclr();
+            fLDeclR();
+        } else {
+            System.out.printf("          %s\n", "LDeclr = epsilon");
+
         }
     }
 
     //Decl = DeclVar | DeclFun
-    public void fDecl(){
-        System.out.printf("          %s\n", "Decl = DeclVar | DeclFun");
-        if(token.getCategory() == Category.VAR){
-            nextToken();
-            fType();
-
-            if(token.getCategory() == Category.IDENTIFICADOR){
-                nextToken();
-                fAtr();
-
-                if(token.getCategory() == Category.PON_VIR){
-                    nextToken();
-                }
-            }
-
-        }else if(token.getCategory() == Category.FUN) {
-            nextToken();
-            fTypeF();
-            if (token.getCategory() == Category.IDENTIFICADOR) {
-                nextToken();
-                if (token.getCategory() == Category.ABR_PAR) {
-                    nextToken();
-                    fLParam();
-
-                    if (token.getCategory() == Category.FEC_PAR) {
-                        nextToken();
-                        if (token.getCategory() == Category.ABR_COL) {
-                            nextToken();
-                            fLSent();
-                            if (token.getCategory() == Category.FEC_COL) {
-                                nextToken();
-                            }
-                        }
-                    }
-                }
-            }
+    public void fDecl() {
+        if (token.getCategory() == Category.VAR) {
+            System.out.printf("          %s\n", "Decl = DeclVar");
+            fDeclVar();
+        } else if (token.getCategory() == Category.FUN) {
+            System.out.printf("          %s\n", "Decl = DeclFun");
+            fDeclFun();
         }
     }
 
-    //DeclVar = 'var' Type 'id' Atr ';' | 'var' Type 'id' '[' ExpArit ']' Atr ';'
-    public void fDeclVar(){
 
-        if(token.getCategory() == Category.VAR){
-            System.out.printf("          %s\n", "DeclVar = 'var' Type 'id' Atr ';'");
+    //DeclVar = 'var' Type 'id' DeclVarAux ';'
+    //DeclVarAux = '[' ExpArit ']' Atr
+    //DeclVarAux =  Atr
+    public void fDeclVar() {
+
+        if (token.getCategory() == Category.VAR) {
             nextToken();
             fType();
-            if(token.getCategory() == Category.IDENTIFICADOR){
+            if (token.getCategory() == Category.IDENTIFICADOR) {
                 nextToken();
-                fAtr();
-                if(token.getCategory() == Category.PON_VIR){
+                fDeclVarAux();
+                if (token.getCategory() == Category.PON_VIR) {
                     nextToken();
+                } else {
+                    printErro("; esperado.");
                 }
+            } else {
+                printErro("Identificador esperado.");
             }
-        }
-        else if(token.getCategory() == Category.VAR){
-            System.out.printf("          %s\n", "'var' Type 'id' '[' ExpArit ']' Atr ';'");
-            nextToken();
-            fType();
-            if(token.getCategory() == Category.IDENTIFICADOR){
-                nextToken();
-                fAtr();
-                if (token.getCategory() == Category.ABR_COL) {
-                    nextToken();
-                    fExpArit();
-                    if (token.getCategory() == Category.FEC_COL) {
-                        nextToken();
-                        fAtr();
-                        if(token.getCategory() == Category.PON_VIR){
-                            nextToken();
-                        }
-                    }
-                }
-            }
+        } else {
+            printErro("Var esperado.");
         }
 
+    }
+
+    public void fDeclVarAux() {
+
+        if(token.getCategory()==Category.ABR_COL) {
+        nextToken();
+        fExpArit();
+        if (token.getCategory() == Category.FEC_COL) {
+            nextToken();
+            fAtr();
+        } else {
+            printErro("] esperado.");
+        }
+
+        }else if (token.getCategory() == Category.ATRIBUICAO) {
+            fAtr();
+        }
     }
 
     //Atr = '=' ExpConcat | epsilon
     public void fAtr(){
 
         if(token.getCategory() == Category.ATRIBUICAO){
+            System.out.printf("          %s\n", "Atr = '=' ExpConcat ");
             nextToken();
             fExpConcat();
         }
@@ -142,22 +122,32 @@ public class SyntacticAnalyzer {
         if(token.getCategory() == Category.FUN){
             nextToken();
             fTypeF();
-            if(token.getCategory() == Category.IDENTIFICADOR){
+            if (token.getCategory() == Category.IDENTIFICADOR) {
                 nextToken();
-                if(token.getCategory() == Category.ABR_PAR){
+                if (token.getCategory() == Category.ABR_PAR) {
                     nextToken();
                     fLParam();
-                    if(token.getCategory() == Category.FEC_PAR){
+                    if (token.getCategory() == Category.FEC_PAR) {
                         nextToken();
-                        if(token.getCategory() == Category.ABR_CHA){
+                        if (token.getCategory() == Category.ABR_CHA) {
                             nextToken();
                             fLSent();
-                            if(token.getCategory() == Category.FEC_CHA){
+                            if (token.getCategory() == Category.FEC_CHA) {
                                 nextToken();
+                            }else{
+                                printErro("} esperado.");
                             }
+                        }else{
+                            printErro("{ esperado.");
                         }
+                    }else{
+                        printErro(") esperado.");
                     }
+                }else{
+                    printErro("( esperado.");
                 }
+            }else{
+                printErro("Identificador esperado.");
             }
         }
     }
@@ -168,11 +158,9 @@ public class SyntacticAnalyzer {
         if(token.getCategory() == Category.VOID){
             System.out.printf("          %s\n", "TypeF = 'void'");
             nextToken();
-        }
-        else{
-            System.out.printf("          %s\n", "TypeF = 'Type'");
+        }else{
+            System.out.printf("          %s\n", "TypeF = Type");
             fType();
-            nextToken();
         }
 
 
@@ -200,11 +188,15 @@ public class SyntacticAnalyzer {
 
     //LParam = Param LParamR | epsilon
     public void fLParam(){
-        if(token.getCategory() == Category.VAR) {
+        if(token.getCategory() == Category.TIP_INT ||
+                token.getCategory() == Category.TIP_FLO ||
+                token.getCategory() == Category.TIP_CHA ||
+                token.getCategory() == Category.TIP_STR ||
+                token.getCategory() == Category.TIP_BOO ) {
+
             System.out.printf("          %s\n", "LParam = Param LParamR");
-            nextToken();
             fParam();
-            fLParam();
+            fLParamR();
         }else{
             System.out.printf("          %s\n", "LParam = epsilon");
         }
@@ -229,16 +221,18 @@ public class SyntacticAnalyzer {
             nextToken();
             if (token.getCategory() == Category.ABR_COL){
                 nextToken();
+                System.out.printf("          %s\n", "Param = Type 'id' '[' ']'");
+
                 if (token.getCategory() == Category.FEC_COL){
                     nextToken();
                 }else{
                     printErro("] esperado.");
                 }
             }else{
-                printErro("Identificador esperado");
+                System.out.printf("          %s\n", "Param = Type 'id'");
             }
         }else{
-            printErro("Tipo esperado.");
+            printErro("Identificador esperado.");
         }
     }
 
@@ -271,10 +265,18 @@ public class SyntacticAnalyzer {
         if(token.getCategory() == Category.VAR){
             System.out.printf("          %s\n", "Sent = DeclVar");
             fDeclVar();
-        }
-        else{
-            System.out.printf("          %s\n", "Sent = Command");
-            fCommand();
+        }else if(token.getCategory() == Category.CONTINUE ||
+                token.getCategory() == Category.BREAK ||
+                token.getCategory() == Category.IDENTIFICADOR ||
+                token.getCategory() == Category.OUTPUT ||
+                token.getCategory() == Category.INPUT ||
+                token.getCategory() == Category.FOR ||
+                token.getCategory() == Category.WHILE ||
+                token.getCategory() == Category.IF ||
+                token.getCategory() == Category.RETURN ){
+
+                System.out.printf("          %s\n", "Sent = Command");
+                fCommand();
         }
 
     }
@@ -294,12 +296,16 @@ public class SyntacticAnalyzer {
     **/
     public void fCommand(){
         if(token.getCategory() == Category.CONTINUE){
+            System.out.printf("          %s\n", "Command = 'continue' ';'");
             nextToken();
+
             if (token.getCategory() == Category.PON_VIR){
                 nextToken();
             }
         }
         else if(token.getCategory() == Category.BREAK){
+            System.out.printf("          %s\n", "Command = 'break' ';'");
+            nextToken();
             if (token.getCategory() == Category.PON_VIR){
                 nextToken();
             }
@@ -307,6 +313,7 @@ public class SyntacticAnalyzer {
         else if(token.getCategory() == Category.IDENTIFICADOR){
             nextToken();
             if(token.getCategory() == Category.ABR_COL){
+                System.out.printf("          %s\n", "Command = 'id' '[' ExpArit ']' Atr ';'");
                 nextToken();
                 fExpArit();
                 if(token.getCategory() == Category.FEC_COL){
@@ -316,12 +323,10 @@ public class SyntacticAnalyzer {
                         nextToken();
                     }
                 }
-            }
-        }
-        else if(token.getCategory() == Category.IDENTIFICADOR){
-            nextToken();
-            if(token.getCategory() == Category.ABR_PAR){
+            } else if(token.getCategory() == Category.ABR_PAR){
+                System.out.printf("          %s\n", "'id' '(' LArg ')' ';'");
                 nextToken();
+
                 fLArg();
                 if(token.getCategory() == Category.FEC_PAR){
                     nextToken();
@@ -329,42 +334,51 @@ public class SyntacticAnalyzer {
                         nextToken();
                     }
                 }
-            }
-        }
-        else if(token.getCategory() == Category.IDENTIFICADOR){
-            nextToken();
-            fAtr();
-            if (token.getCategory() == Category.PON_VIR){
-                nextToken();
+            }else{
+
+                System.out.printf("          %s\n", "Command = 'id' Atr ';'");
+
+                fAtr();
+                if(token.getCategory() == Category.PON_VIR){
+                    nextToken();
+                }
             }
         }
         else if(token.getCategory() == Category.OUTPUT){
+            System.out.printf("          %s\n", "Command = Print ';'");
             fPrint();
-            nextToken();
             if(token.getCategory() == Category.PON_VIR){
                 nextToken();
+            }else{
+                printErro("; esperado.");
             }
         }
         else if(token.getCategory() == Category.INPUT){
+            System.out.printf("          %s\n", "Command = Read ';'");
             fRead();
-            nextToken();
             if(token.getCategory() == Category.PON_VIR){
                 nextToken();
+            }else{
+                printErro("; esperado.");
             }
         }
         else if(token.getCategory() == Category.FOR){
+            System.out.printf("          %s\n", "Command = For");
             fFor();
 
         }
         else if(token.getCategory() == Category.WHILE){
+            System.out.printf("          %s\n", "Command = While");
             fWhile();
 
         }
         else if(token.getCategory() == Category.IF){
+            System.out.printf("          %s\n", "Command = If");
             fIf();
 
         }
         else if(token.getCategory() == Category.RETURN){
+            System.out.printf("          %s\n", "Command = Return");
             fReturn();
 
         }
@@ -374,17 +388,39 @@ public class SyntacticAnalyzer {
 
     //LArg = Arg LArgR | LArg = epsilon
     public void fLArg(){
-        //if()
+        if(token.getCategory() == Category.IDENTIFICADOR){
+            fArg();
+            fLArgR();
+        }else{
+            System.out.printf("          %s\n", "LArg = epsilon");
 
+        }
     }
 
     //LArgR = ',' Arg LArgR | epsilon
-    public void fLArgr(){
-
+    public void fLArgR(){
+        if(token.getCategory() == Category.VIRGULA) {
+            nextToken();
+            fArg();
+            fLArgR();
+        }else{
+            System.out.printf("          %s\n", "LArg = epsilon");
+        }
     }
+
 
     //Arg = ExpConcat
     public void fArg(){
+        if(token.getCategory() == Category.IDENTIFICADOR ||
+                token.getCategory() == Category.OPE_ADI ||
+                token.getCategory() == Category.CON_INT||
+                token.getCategory() == Category.CON_FLO ||
+                token.getCategory() == Category.CON_CHA ||
+                token.getCategory() == Category.CON_STR ||
+                token.getCategory() == Category.CON_BOO ||
+                token.getCategory() == Category.ABR_PAR ) {
+                    fExpConcat();
+                }
 
     }
 
@@ -418,27 +454,82 @@ public class SyntacticAnalyzer {
 
     //LParamRead = ParamRead LParamReadR
     public void fLParamRead(){
-
+        fParamRead();
+        fLParamReadR();
     }
 
     //LParamReadR = ',' ParamRead LParamReadR | epsilon
     public void fLParamReadR(){
-
+        if(token.getCategory() == Category.VIRGULA){
+            nextToken();
+            fParamRead();
+            fLParamReadR();
+        }else{
+            System.out.printf("          %s\n", "LParamReadR = epsilon");
+        }
     }
 
     //ParamRead = 'id'
-    public void fParamRead(){
+    //ParamRead = 'id' '[' ExpArit ']'
 
+    public void fParamRead(){
+        if(token.getCategory() == Category.IDENTIFICADOR){
+            nextToken();
+            if (token.getCategory() == Category.ABR_COL){
+                nextToken();
+                System.out.printf("          %s\n", "Param = Type 'id' '[' ']'");
+                fExpArit();
+                if (token.getCategory() == Category.FEC_COL){
+                    nextToken();
+                }else{
+                    printErro("] esperado.");
+                }
+            }else{
+                System.out.printf("          %s\n", "Param = Type 'id'");
+            }
+        }
     }
 
-    //For = 'for' 'id' 'in' ExpArit 'to' ExpArit Step '{'LSent'}'
+    //For = 'for' '(' 'id' 'in' ExpArit 'to' ExpArit Step ')' '{'LSent'}'
     public void fFor(){
-
+        if(token.getCategory() == Category.FOR) {
+            nextToken();
+            if(token.getCategory() == Category.ABR_PAR) {
+                nextToken();
+                if (token.getCategory() == Category.IDENTIFICADOR) {
+                    nextToken();
+                    if (token.getCategory() == Category.IN) {
+                        nextToken();
+                        fExpArit();
+                        if (token.getCategory() == Category.TO) {
+                            nextToken();
+                            fExpArit();
+                            fStep();
+                            if(token.getCategory() == Category.FEC_PAR) {
+                                nextToken();
+                                if (token.getCategory() == Category.ABR_CHA) {
+                                    nextToken();
+                                    fLSent();
+                                    if (token.getCategory() == Category.FEC_CHA) {
+                                        nextToken();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //Step = 'step' ExpArit | epsilon
     public void fStep(){
-
+        if(token.getCategory() == Category.STEP) {
+            nextToken();
+            fExpArit();
+        }else {
+            System.out.printf("          %s\n", "Step = epsilon");
+        }
     }
 
     //While = 'while' '(' ExpBool ')' '{' LSent '}'
@@ -648,31 +739,36 @@ public class SyntacticAnalyzer {
             nextToken();
             if (token.getCategory() == Category.ABR_PAR) {
                 nextToken();
-                fLParam();
+                fLArg();
                 if (token.getCategory() == Category.FEC_PAR) {
                     nextToken();
                 }else{
                     printErro("] esperado.");
                 }
 
-            }else if (token.getCategory() == Category.ABR_CHA) {
+            }else if (token.getCategory() == Category.ABR_COL) {
                 nextToken();
                 fExpArit();
-                if (token.getCategory() == Category.FEC_CHA) {
+                if (token.getCategory() == Category.FEC_COL) {
                     nextToken();
                 }else{
                     printErro("} esperado.");
                 }
             }
         }else if (token.getCategory() == Category.CON_INT) {
+            System.out.printf("          %s\n", "FatArit = 'cte_int'");
             nextToken();
         }else if (token.getCategory() == Category.CON_FLO) {
+            System.out.printf("          %s\n", "FatArit = 'cte_flo'");
             nextToken();
         }else if (token.getCategory() == Category.CON_CHA) {
+            System.out.printf("          %s\n", "FatArit = 'cte_cha'");
             nextToken();
         }else if (token.getCategory() == Category.CON_STR) {
+            System.out.printf("          %s\n", "FatArit = 'cte_str'");
             nextToken();
         }else if (token.getCategory() == Category.CON_BOO) {
+            System.out.printf("          %s\n", "FatArit = 'cte_boo'");
             nextToken();
         }else{
             printErro("Identificador ou constante literal esperada.");
@@ -680,6 +776,7 @@ public class SyntacticAnalyzer {
     }
 
     private void printErro(String content){
+        System.out.println("Token:" + token.getLexicalValue());
         System.err.println("Linha: " + token.getLine() +" Coluna:" + token.getColumn() + "Erro: "+  content);
     }
 }

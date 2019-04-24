@@ -60,7 +60,7 @@ public class LexicalAnalyzer {
         pattern.put(Pattern.compile("\\]"), Category.FEC_COL);
         pattern.put(Pattern.compile("\\+\\+"), Category.OPE_CON);
         pattern.put(Pattern.compile("%% | %"), Category.OPE_LIM);
-        pattern.put(Pattern.compile("==|!=|<|>|>=|<="), Category.OPE_REL);
+        pattern.put(Pattern.compile("==|!=|<=|>=|>|<"), Category.OPE_REL);
         pattern.put(Pattern.compile("\\|\\||&&"), Category.OPE_LOG);
         pattern.put(Pattern.compile("\\+|-"), Category.OPE_ADI);
         pattern.put(Pattern.compile("\\*|\\/"), Category.OPE_MUL);
@@ -88,7 +88,6 @@ public class LexicalAnalyzer {
 
                 //talvez não precise
                 if (columnIndex > input.length()) {
-                    System.out.println("TESTE");
                     nextLine();
                     printFormatedLine();
                     return nextToken();
