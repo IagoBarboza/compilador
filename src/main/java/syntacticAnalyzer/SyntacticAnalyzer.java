@@ -152,7 +152,7 @@ public class SyntacticAnalyzer {
                         if(token.getCategory() == Category.ABR_CHA){
                             nextToken();
                             fLSent();
-                            if(token.getCategory() == Category.FEC_PAR){
+                            if(token.getCategory() == Category.FEC_CHA){
                                 nextToken();
                             }
                         }
@@ -365,7 +365,10 @@ public class SyntacticAnalyzer {
     }
     //ExpLimR = 'opa_lim' FatArit ExpLimR | epsilon
     public void fExpLimr(){
-
+        if(token.getCategory() == Category.OPE_LIM){
+            fFatArit();
+            fExpLimr();
+        }
     }
 
     /**
