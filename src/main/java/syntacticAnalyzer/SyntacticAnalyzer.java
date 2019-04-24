@@ -92,31 +92,118 @@ public class SyntacticAnalyzer {
     //DeclVar = 'var' Type 'id' Atr ';' | 'var' Type 'id' '[' ExpArit ']' Atr ';'
     public void fDeclVar(){
 
+        if(token.getCategory() == Category.VAR){
+            System.out.printf("          %s\n", "DeclVar = 'var' Type 'id' Atr ';'");
+            nextToken();
+            fType();
+            if(token.getCategory() == Category.IDENTIFICADOR){
+                nextToken();
+                fAtr();
+                if(token.getCategory() == Category.PON_VIR){
+                    nextToken();
+                }
+            }
+        }
+        else if(token.getCategory() == Category.VAR){
+            System.out.printf("          %s\n", "'var' Type 'id' '[' ExpArit ']' Atr ';'");
+            nextToken();
+            fType();
+            if(token.getCategory() == Category.IDENTIFICADOR){
+                nextToken();
+                fAtr();
+                if (token.getCategory() == Category.ABR_COL) {
+                    nextToken();
+                    fExpArit();
+                    if (token.getCategory() == Category.FEC_COL) {
+                        nextToken();
+                        fAtr();
+                        if(token.getCategory() == Category.PON_VIR){
+                            nextToken();
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     //Atr = '=' ExpConcat | epsilon
     public void fAtr(){
 
+        if(token.getCategory() == Category.ATRIBUICAO){
+            nextToken();
+            fExpConcat();
+        }
+        System.out.printf("          %s\n", "DeclVar = epsilon");
     }
 
     //DeclFun = 'fun' TypeF 'id'  '(' LParam ')''{' LSent '}'
     public void fDeclFun(){
-
+        System.out.printf("          %s\n", "DeclFun = 'fun' TypeF 'id'  '(' LParam ')''{' LSent '}'");
+        if(token.getCategory() == Category.FUN){
+            nextToken();
+            fTypeF();
+            if(token.getCategory() == Category.IDENTIFICADOR){
+                nextToken();
+                if(token.getCategory() == Category.ABR_PAR){
+                    nextToken();
+                    fLParam();
+                    if(token.getCategory() == Category.FEC_PAR){
+                        nextToken();
+                        if(token.getCategory() == Category.ABR_CHA){
+                            nextToken();
+                            fLSent();
+                            if(token.getCategory() == Category.FEC_PAR){
+                                nextToken();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //TypeF = 'void' | Type
     public void fTypeF(){
 
+        if(token.getCategory() == Category.VOID){
+            System.out.printf("          %s\n", "TypeF = 'void'");
+            nextToken();
+        }
+        else{
+            System.out.printf("          %s\n", "TypeF = 'Type'");
+            fType();
+            nextToken();
+        }
+
+
     }
 
     //Type = 'boolean' | 'float' | 'int' | 'char' | 'string'
-    public void fType(){
-
+    public void fType() {
+        if (token.getCategory() == Category.TIP_BOO) {
+            System.out.printf("          %s\n", "Type = 'boolean'");
+            nextToken();
+        } else if (token.getCategory() == Category.TIP_FLO) {
+            System.out.printf("          %s\n", "Type = 'float'");
+            nextToken();
+        } else if (token.getCategory() == Category.TIP_INT) {
+            System.out.printf("          %s\n", "Type = 'int'");
+            nextToken();
+        } else if (token.getCategory() == Category.TIP_CHA) {
+            System.out.printf("          %s\n", "Type = 'char'");
+            nextToken();
+        } else if (token.getCategory() == Category.TIP_STR) {
+            System.out.printf("          %s\n", "Type = 'string'");
+            nextToken();
+        }
     }
 
     //LParam = Param LParam1
     public void fLParam(){
-
+        System.out.printf("          %s\n", "LParam = Param LParam1");
+        fParam();
+        fLParam1();
     }
 
     //LParam1 = ',' Param LParam1 | epsilon
@@ -125,7 +212,7 @@ public class SyntacticAnalyzer {
     }
 
     //Param = Type 'id' '[' ']' | Type 'id' | epsilon
-    public void Param(){
+    public void fParam(){
 
     }
 
