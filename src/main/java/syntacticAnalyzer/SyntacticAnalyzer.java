@@ -259,12 +259,23 @@ public class SyntacticAnalyzer {
             fSent();
             fLSent();
         }
+        else{
+            System.out.printf("          %s\n", "LSent = epsilon");
+        }
 
 
     }
 
     //Sent = DeclVar | Command
     public void fSent(){
+        if(token.getCategory() == Category.VAR){
+            System.out.printf("          %s\n", "Sent = DeclVar");
+            fDeclVar();
+        }
+        else{
+            System.out.printf("          %s\n", "Sent = Command");
+            fCommand();
+        }
 
     }
 
