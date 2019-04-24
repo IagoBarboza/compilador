@@ -372,17 +372,17 @@ public class SyntacticAnalyzer {
         
     }
 
-    //LArg = Arg LArgR
+    //LArg = Arg LArgR | LArg = epsilon
     public void fLArg(){
 
     }
 
-    //LArgR = ',' LArgR | epsilon
+    //LArgR = ',' Arg LArgR | epsilon
     public void fLArgr(){
 
     }
 
-    //Arg = ExpConcat | epsilon
+    //Arg = ExpConcat
     public void fArg(){
 
     }
