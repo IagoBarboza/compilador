@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String args[]) {
 
-        SyntacticAnalyzer syntacticAnalyzer = new SyntacticAnalyzer("fib.tc");
+        SyntacticAnalyzer syntacticAnalyzer = new SyntacticAnalyzer("shellsort.tc");
 
     }
 }
