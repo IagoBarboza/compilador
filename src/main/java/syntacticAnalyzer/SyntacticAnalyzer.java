@@ -413,7 +413,23 @@ public class SyntacticAnalyzer {
 
     //While = 'while' '(' ExpBool ')' '{' LSent '}'
     public void fWhile(){
-
+        if(token.getCategory() == Category.WHILE) {
+            nextToken();
+            if(token.getCategory() == Category.ABR_PAR) {
+                nextToken();
+                fExpBool();
+                if(token.getCategory() == Category.FEC_PAR) {
+                    nextToken();
+                    if (token.getCategory() == Category.ABR_CHA) {
+                        nextToken();
+                        fLSent();
+                        if (token.getCategory() == Category.FEC_CHA) {
+                            nextToken();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //If = 'if' '(' ExpBool ')' '{'LSent'}' Else
