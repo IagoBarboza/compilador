@@ -328,75 +328,171 @@ public class SyntacticAnalyzer {
 
     //If = 'if' '(' ExpBool ')' '{'LSent'}' Else
     public void fIf(){
+        if(token.getCategory() == Category.IF) {
+            nextToken();
+            if(token.getCategory() == Category.ABR_PAR) {
+                nextToken();
+                fExpBool();
+                if(token.getCategory() == Category.FEC_PAR) {
+                    nextToken();
+                    if(token.getCategory() == Category.ABR_CHA) {
+                        nextToken();
+                        fLSent();
+                        if(token.getCategory() == Category.FEC_CHA) {
+                            nextToken();
+                            fElse();
+                        }else{
+                            printErro("} esperado.");
 
+                        }
+                    }else{
+                        printErro("{ esperado.");
+                    }
+                }else{
+                    printErro(") esperado.");
+
+                }
+            }else{
+                printErro("( esperado.");
+
+            }
+        }else{
+            printErro("If esperado.");
+        }
     }
 
     //Else = 'else' '{' LSent '}' | epsilon
     public void fElse(){
-
+        if(token.getCategory() == Category.ELSE) {
+            nextToken();
+            if(token.getCategory() == Category.ABR_CHA){
+                nextToken();
+                fLSent();
+                if(token.getCategory() == Category.FEC_CHA) {
+                    nextToken();
+                }
+            }
+        }else{
+            System.out.printf("          %s\n", "Else = epsilon");
+        }
     }
 
-    //Return = 'return' ExpConcat ';' | epsilon
+    //Return = 'return' ExpConcat ';'
     public void fReturn(){
-
+        if(token.getCategory() == Category.RETURN){
+            nextToken();
+            fExpConcat();
+            if(token.getCategory() == Category.PON_VIR){
+                nextToken();
+            }else{
+                printErro("; esperado.");
+            }
+        }else{
+            printErro("Return esperado.");
+        }
     }
 
     //ExpConcat =	ExpBool ExpConcatR
     public void fExpConcat(){
-
+        fExpBool();
+        fExpConcatR();
     }
 
     //ExpConcatR = '++' ExpBool ExpConcatR | epsilon
-    public void fExpConcatr(){
-
+    public void fExpConcatR(){
+        if(token.getCategory() == Category.OPE_CON){
+            nextToken();
+            fExpBool();
+            fExpConcatR();
+        }else {
+            System.out.printf("          %s\n", "ExpConcatR = epsilon");
+        }
     }
 
-    //ExpBool = TermBool ExpBool1
+    //ExpBool = TermBool ExpBoolR
     public void fExpBool(){
-
+        fTermBool();
+        fExpBoolR();
     }
 
     //ExpBoolR = 'opr_log' TermBool ExpBoolR | epsilon
-    public void fExpBoolr(){
-
+    public void fExpBoolR(){
+        if(token.getCategory() == Category.OPE_LOG){
+            nextToken();
+            fTermBool();
+            fExpBoolR();
+        }else {
+            System.out.printf("          %s\n", "ExpBoolR = epsilon");
+        }
     }
 
-    //TermBool =	'!' TermBool TermBoolR | ExpArit TermBoolR
+    //TermBool =	'!' TermBool | ExpArit TermBoolR
     public void fTermBool(){
-
+        if(token.getCategory() == Category.OPE_NEG){
+            nextToken();
+            fTermBool();
+        }else{
+            fExpArit();
+            fTermBoolR();
+        }
     }
-    //TermBoolR =	'opr_rel' ExpArit TermBoolR | epsilon
-    public void fTermBoolr(){
 
+    //TermBoolR =	'opr_rel' ExpArit TermBoolR | epsilon
+    public void fTermBoolR(){
+        if(token.getCategory() == Category.OPE_REL){
+            nextToken();
+            fExpArit();
+            fTermBoolR();
+        }else {
+            System.out.printf("          %s\n", "TermBoolR = epsilon");
+        }
     }
 
     //ExpArit =	TermArit ExpAritR
     public void fExpArit(){
-
+        fTermArit();
+        fExpAritR();
     }
-    //ExpAritR = 'opa_adi' TermArit ExpAritR | ExpAritR
-    public void fExpAritr(){
-
+    //ExpAritR = 'opa_adi' TermArit ExpAritR | epsilon
+    public void fExpAritR(){
+        if(token.getCategory() == Category.OPE_ADI){
+            nextToken();
+            fTermArit();
+            fExpAritR();
+        }else{
+            System.out.printf("          %s\n", "ExpAritR = epsilon");
+        }
     }
 
     //TermArit = ExpLim TermAritR
     public void fTermArit(){
-
+        fExpLim();
+        fTermAritR();
     }
     //TermAritR =	'opa_mult' ExpLim TermAritR | epsilon
-    public void fTermAritr(){
-
+    public void fTermAritR(){
+        if(token.getCategory() == Category.OPE_MUL){
+            nextToken();
+            fExpLim();
+            fTermAritR();
+        }else{
+            System.out.printf("          %s\n", "TermAritR = epsilon");
+        }
     }
 
     //ExpLim = FatArit ExpLimR
     public void fExpLim(){
-
+        fFatArit();
+        fExpLimR();
     }
     //ExpLimR = 'opa_lim' FatArit ExpLimR | epsilon
-    public void fExpLimr(){
+    public void fExpLimR(){
         if(token.getCategory() == Category.OPE_LIM){
+            nextToken();
             fFatArit();
-            fExpLimr();
+            fExpLimR();
+        }else{
+            System.out.printf("          %s\n", "ExpLimR = epsilon");
         }
     }
 
