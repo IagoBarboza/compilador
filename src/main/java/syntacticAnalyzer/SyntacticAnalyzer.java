@@ -301,6 +301,8 @@ public class SyntacticAnalyzer {
 
             if (token.getCategory() == Category.PON_VIR){
                 nextToken();
+            } else {
+                printErro("; esperado.");
             }
         }
         else if(token.getCategory() == Category.BREAK){
@@ -308,6 +310,8 @@ public class SyntacticAnalyzer {
             nextToken();
             if (token.getCategory() == Category.PON_VIR){
                 nextToken();
+            } else {
+                printErro("; esperado.");
             }
         }
         else if(token.getCategory() == Category.IDENTIFICADOR){
@@ -321,7 +325,11 @@ public class SyntacticAnalyzer {
                     fAtr();
                     if (token.getCategory() == Category.PON_VIR){
                         nextToken();
+                    } else {
+                        printErro("; esperado.");
                     }
+                } else {
+                    printErro("] esperado.");
                 }
             } else if(token.getCategory() == Category.ABR_PAR){
                 System.out.printf("          %s\n", "'id' '(' LArg ')' ';'");
@@ -332,16 +340,21 @@ public class SyntacticAnalyzer {
                     nextToken();
                     if(token.getCategory() == Category.PON_VIR){
                         nextToken();
+                    }else {
+                        printErro("; esperado.");
                     }
+                } else {
+                    printErro(") esperado.");
                 }
             }else{
-
                 System.out.printf("          %s\n", "Command = 'id' Atr ';'");
-
                 fAtr();
                 if(token.getCategory() == Category.PON_VIR){
                     nextToken();
+                } else {
+                    printErro("; esperado.");
                 }
+
             }
         }
         else if(token.getCategory() == Category.OUTPUT){
@@ -433,7 +446,11 @@ public class SyntacticAnalyzer {
                 fExpConcat();
                 if(token.getCategory() == Category.FEC_PAR){
                     nextToken();
+                } else {
+                    printErro(") esperado.");
                 }
+            } else {
+                printErro("( esperado.");
             }
         }
     }
@@ -447,7 +464,11 @@ public class SyntacticAnalyzer {
                 fLParamRead();
                 if(token.getCategory() == Category.FEC_PAR){
                     nextToken();
+                }else {
+                    printErro(") esperado.");
                 }
+            }else {
+                printErro("( esperado.");
             }
         }
     }
@@ -471,7 +492,6 @@ public class SyntacticAnalyzer {
 
     //ParamRead = 'id'
     //ParamRead = 'id' '[' ExpArit ']'
-
     public void fParamRead(){
         if(token.getCategory() == Category.IDENTIFICADOR){
             nextToken();
@@ -597,7 +617,11 @@ public class SyntacticAnalyzer {
                 fLSent();
                 if(token.getCategory() == Category.FEC_CHA) {
                     nextToken();
+                } else{
+                    printErro("} esperado.");
                 }
+            }else{
+                printErro("{ esperado.");
             }
         }else{
             System.out.printf("          %s\n", "Else = epsilon");
