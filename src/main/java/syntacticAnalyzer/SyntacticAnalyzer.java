@@ -1,18 +1,23 @@
 package syntacticAnalyzer;
 import fileManager.FileManager;
 import  lexicalAnalyzer.LexicalAnalyzer;
+import token.Category;
 import token.Token;
 
 public class SyntacticAnalyzer {
+
     private LexicalAnalyzer lexAnalyzer;
-    private Token currentToken;
+    private Token token;
+    private String file;
 
     public  SyntacticAnalyzer(String file){
-        lexAnalyzer = new LexicalAnalyzer("");
+        lexAnalyzer = new LexicalAnalyzer(file);
+        nextToken();
+        fProgram();
     }
 
     private void nextToken(){
-        currentToken = lexAnalyzer.nextToken();
+        token = lexAnalyzer.nextToken();
     }
 
     public void analyzer(){
@@ -22,24 +27,66 @@ public class SyntacticAnalyzer {
 
     //Program = LDecl
     public void fProgram(){
-        System.out.println("Program = LDecl");
-        nextToken();
+        System.out.printf("          %s\n", "Program = LDecl");
         fLDecl();
     }
 
     //LDecl = Decl | LDeclr
     public void fLDecl(){
-
+        System.out.printf("          %s\n", "LDecl = Decl | LDeclr");
+        fDecl();
+        fLDeclr();
     }
 
     //LDeclr = Decl LDeclr | epsilon
     public void fLDeclr(){
+        System.out.printf("          %s\n", "LDeclr = Decl LDeclr | epsilon");
 
+        if(token.getCategory() == Category.VAR || token.getCategory() == Category.FUN){
+            fDecl();
+            fLDeclr();
+        }
     }
 
     //Decl = DeclVar | DeclFun
     public void fDecl(){
+        System.out.printf("          %s\n", "Decl = DeclVar | DeclFun");
+        if(token.getCategory() == Category.VAR){
+            nextToken();
+            fType();
 
+            if(token.getCategory() == Category.IDENTIFICADOR){
+                nextToken();
+                fAtr();
+
+                if(token.getCategory() == Category.PON_VIR){
+                    nextToken();
+                }
+            }
+
+        }else if(token.getCategory() == Category.FUN) {
+            nextToken();
+            fTypeF();
+            if (token.getCategory() == Category.IDENTIFICADOR) {
+
+                nextToken();
+                if (token.getCategory() == Category.ABR_PAR) {
+                    nextToken();
+                    fLParam();
+
+                    if (token.getCategory() == Category.FEC_PAR) {
+                        nextToken();
+                        if (token.getCategory() == Category.ABR_COL) {
+                            nextToken();
+                            fLSent();
+                            if (token.getCategory() == Category.FEC_COL) {
+                                nextToken();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //DeclVar = 'var' Type 'id' Atr ';' | 'var' Type 'id' '[' ExpArit ']' Atr ';'
