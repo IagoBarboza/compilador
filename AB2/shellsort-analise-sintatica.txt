@@ -1,0 +1,903 @@
+   1  fun void shellsort(int vet[], int size){
+          Program = LDecl
+          LDecl = Decl LDeclr
+          Decl = DeclFun
+          DeclFun = 'fun' TypeF 'id'  '(' LParam ')''{' LSent '}'
+              [0001, 0001] (0034,                  FUN) {fun}
+          TypeF = 'void'
+              [0001, 0005] (0001,                 VOID) {void}
+              [0001, 0010] (0011,        IDENTIFICADOR) {shellsort}
+              [0001, 0019] (0003,              ABR_PAR) {(}
+          LParam = Param LParamR
+          Param = Type 'id' ParamR
+          Type = 'int'
+              [0001, 0020] (0012,              TIP_INT) {int}
+              [0001, 0024] (0011,        IDENTIFICADOR) {vet}
+          ParamR = '[' ']'
+              [0001, 0027] (0006,              ABR_COL) {[}
+              [0001, 0028] (0007,              FEC_COL) {]}
+          LParamR = ',' Param LParamR
+              [0001, 0029] (0008,              VIRGULA) {,}
+          Param = Type 'id' ParamR
+          Type = 'int'
+              [0001, 0031] (0012,              TIP_INT) {int}
+              [0001, 0035] (0011,        IDENTIFICADOR) {size}
+          ParamR = epsilon
+          LParamR = epsilon
+              [0001, 0039] (0002,              FEC_PAR) {)}
+              [0001, 0040] (0004,              ABR_CHA) {{}
+   2  var int i;
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0002, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0002, 0005] (0012,              TIP_INT) {int}
+              [0002, 0009] (0011,        IDENTIFICADOR) {i}
+          DeclVarAux = Atr
+          Atr = epsilon
+              [0002, 0010] (0009,              PON_VIR) {;}
+   3  var int j;
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0003, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0003, 0005] (0012,              TIP_INT) {int}
+              [0003, 0009] (0011,        IDENTIFICADOR) {j}
+          DeclVarAux = Atr
+          Atr = epsilon
+              [0003, 0010] (0009,              PON_VIR) {;}
+   4  var int value;
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0004, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0004, 0005] (0012,              TIP_INT) {int}
+              [0004, 0009] (0011,        IDENTIFICADOR) {value}
+          DeclVarAux = Atr
+          Atr = epsilon
+              [0004, 0014] (0009,              PON_VIR) {;}
+   5  var int gap = 1;
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0005, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0005, 0005] (0012,              TIP_INT) {int}
+              [0005, 0009] (0011,        IDENTIFICADOR) {gap}
+          DeclVarAux = Atr
+          Atr = '=' ExpConcat 
+              [0005, 0013] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0005, 0015] (0037,              CON_INT) {1}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0005, 0016] (0009,              PON_VIR) {;}
+   6  
+   7  while(gap > 1){
+          LSent = Sent LSent
+          Sent = Command
+          Command = While
+          While = 'while' '(' ExpBool ')' '{' LSent '}'
+              [0007, 0001] (0030,                WHILE) {while}
+              [0007, 0006] (0003,              ABR_PAR) {(}
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0007, 0007] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit 'opr_rel' ExpArit
+              [0007, 0011] (0019,              OPE_REL) {>}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0007, 0013] (0037,              CON_INT) {1}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          ExpBoolR = epsilon
+              [0007, 0014] (0002,              FEC_PAR) {)}
+              [0007, 0015] (0004,              ABR_CHA) {{}
+   8  gap =  3 * gap + 1;
+          LSent = Sent LSent
+          Sent = Command
+              [0008, 0001] (0011,        IDENTIFICADOR) {gap}
+          CommandR = Atr
+          Atr = '=' ExpConcat 
+              [0008, 0005] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0008, 0008] (0037,              CON_INT) {3}
+          ExpLimR = epsilon
+          TermAritR = 'opa_mult' ExpLim TermAritR
+              [0008, 0010] (0018,              OPE_MUL) {*}
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0008, 0012] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = 'opa_adi' TermArit ExpAritR
+              [0008, 0016] (0017,              OPE_ADI) {+}
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0008, 0018] (0037,              CON_INT) {1}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0008, 0019] (0009,              PON_VIR) {;}
+   9  }
+          LSent = epsilon
+              [0009, 0001] (0005,              FEC_CHA) {}}
+  10  
+  11  while(gap > 1){
+          LSent = Sent LSent
+          Sent = Command
+          Command = While
+          While = 'while' '(' ExpBool ')' '{' LSent '}'
+              [0011, 0001] (0030,                WHILE) {while}
+              [0011, 0006] (0003,              ABR_PAR) {(}
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0011, 0007] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit 'opr_rel' ExpArit
+              [0011, 0011] (0019,              OPE_REL) {>}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0011, 0013] (0037,              CON_INT) {1}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          ExpBoolR = epsilon
+              [0011, 0014] (0002,              FEC_PAR) {)}
+              [0011, 0015] (0004,              ABR_CHA) {{}
+  12  gap = gap / 3;
+          LSent = Sent LSent
+          Sent = Command
+              [0012, 0001] (0011,        IDENTIFICADOR) {gap}
+          CommandR = Atr
+          Atr = '=' ExpConcat 
+              [0012, 0005] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0012, 0007] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = 'opa_mult' ExpLim TermAritR
+              [0012, 0011] (0018,              OPE_MUL) {/}
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0012, 0013] (0037,              CON_INT) {3}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0012, 0014] (0009,              PON_VIR) {;}
+  13  for(i in gap to size){
+          LSent = Sent LSent
+          Sent = Command
+          Command = For
+          For = 'for' '(' 'id' 'in' ExpArit 'to' ExpArit Step ')' '{'LSent'}'
+              [0013, 0001] (0026,                  FOR) {for}
+              [0013, 0004] (0003,              ABR_PAR) {(}
+              [0013, 0005] (0011,        IDENTIFICADOR) {i}
+              [0013, 0007] (0027,                   IN) {in}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0013, 0010] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0013, 0014] (0028,                   TO) {to}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0013, 0017] (0011,        IDENTIFICADOR) {size}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          Step = epsilon
+              [0013, 0021] (0002,              FEC_PAR) {)}
+              [0013, 0022] (0004,              ABR_CHA) {{}
+  14  value = vet[i];
+          LSent = Sent LSent
+          Sent = Command
+              [0014, 0001] (0011,        IDENTIFICADOR) {value}
+          CommandR = Atr
+          Atr = '=' ExpConcat 
+              [0014, 0007] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0014, 0009] (0011,        IDENTIFICADOR) {vet}
+          FatAritR = '[' ExpArit ']' 
+              [0014, 0012] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0014, 0013] (0011,        IDENTIFICADOR) {i}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0014, 0014] (0007,              FEC_COL) {]}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0014, 0015] (0009,              PON_VIR) {;}
+  15  j = i;
+          LSent = Sent LSent
+          Sent = Command
+              [0015, 0001] (0011,        IDENTIFICADOR) {j}
+          CommandR = Atr
+          Atr = '=' ExpConcat 
+              [0015, 0003] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0015, 0005] (0011,        IDENTIFICADOR) {i}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0015, 0006] (0009,              PON_VIR) {;}
+  16  while(j >= gap && value < vet[j - gap]){
+          LSent = Sent LSent
+          Sent = Command
+          Command = While
+          While = 'while' '(' ExpBool ')' '{' LSent '}'
+              [0016, 0001] (0030,                WHILE) {while}
+              [0016, 0006] (0003,              ABR_PAR) {(}
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0016, 0007] (0011,        IDENTIFICADOR) {j}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit 'opr_rel' ExpArit
+              [0016, 0009] (0019,              OPE_REL) {>=}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0016, 0012] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          ExpBoolR = 'opr_log' TermBool ExpBoolR
+              [0016, 0016] (0020,              OPE_LOG) {&&}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0016, 0019] (0011,        IDENTIFICADOR) {value}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit 'opr_rel' ExpArit
+              [0016, 0025] (0019,              OPE_REL) {<}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0016, 0027] (0011,        IDENTIFICADOR) {vet}
+          FatAritR = '[' ExpArit ']' 
+              [0016, 0030] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0016, 0031] (0011,        IDENTIFICADOR) {j}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = 'opa_adi' TermArit ExpAritR
+              [0016, 0033] (0017,              OPE_ADI) {-}
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0016, 0035] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0016, 0038] (0007,              FEC_COL) {]}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          ExpBoolR = epsilon
+              [0016, 0039] (0002,              FEC_PAR) {)}
+              [0016, 0040] (0004,              ABR_CHA) {{}
+  17  vet[j] = vet[j - gap];
+          LSent = Sent LSent
+          Sent = Command
+              [0017, 0001] (0011,        IDENTIFICADOR) {vet}
+          CommandR = '[' ExpArit ']' Atr
+              [0017, 0004] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0017, 0005] (0011,        IDENTIFICADOR) {j}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0017, 0006] (0007,              FEC_COL) {]}
+          Atr = '=' ExpConcat 
+              [0017, 0008] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0017, 0010] (0011,        IDENTIFICADOR) {vet}
+          FatAritR = '[' ExpArit ']' 
+              [0017, 0013] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0017, 0014] (0011,        IDENTIFICADOR) {j}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = 'opa_adi' TermArit ExpAritR
+              [0017, 0016] (0017,              OPE_ADI) {-}
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0017, 0018] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0017, 0021] (0007,              FEC_COL) {]}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0017, 0022] (0009,              PON_VIR) {;}
+  18  j = j - gap;
+          LSent = Sent LSent
+          Sent = Command
+              [0018, 0001] (0011,        IDENTIFICADOR) {j}
+          CommandR = Atr
+          Atr = '=' ExpConcat 
+              [0018, 0003] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0018, 0005] (0011,        IDENTIFICADOR) {j}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = 'opa_adi' TermArit ExpAritR
+              [0018, 0007] (0017,              OPE_ADI) {-}
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0018, 0009] (0011,        IDENTIFICADOR) {gap}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0018, 0012] (0009,              PON_VIR) {;}
+  19  }
+          LSent = epsilon
+              [0019, 0001] (0005,              FEC_CHA) {}}
+  20  vet[j] = value;
+          LSent = Sent LSent
+          Sent = Command
+              [0020, 0001] (0011,        IDENTIFICADOR) {vet}
+          CommandR = '[' ExpArit ']' Atr
+              [0020, 0004] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0020, 0005] (0011,        IDENTIFICADOR) {j}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0020, 0006] (0007,              FEC_COL) {]}
+          Atr = '=' ExpConcat 
+              [0020, 0008] (0010,           ATRIBUICAO) {=}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0020, 0010] (0011,        IDENTIFICADOR) {value}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0020, 0015] (0009,              PON_VIR) {;}
+  21  }
+          LSent = epsilon
+              [0021, 0001] (0005,              FEC_CHA) {}}
+  22  }
+          LSent = epsilon
+              [0022, 0001] (0005,              FEC_CHA) {}}
+  23  
+  24  }
+          LSent = epsilon
+              [0024, 0001] (0005,              FEC_CHA) {}}
+  25  
+  26  fun int main(){
+          LDeclr = Decl LDeclr
+          Decl = DeclFun
+          DeclFun = 'fun' TypeF 'id'  '(' LParam ')''{' LSent '}'
+              [0026, 0001] (0034,                  FUN) {fun}
+          TypeF = Type
+          Type = 'int'
+              [0026, 0005] (0012,              TIP_INT) {int}
+              [0026, 0009] (0011,        IDENTIFICADOR) {main}
+              [0026, 0013] (0003,              ABR_PAR) {(}
+          LParam = epsilon
+              [0026, 0014] (0002,              FEC_PAR) {)}
+              [0026, 0015] (0004,              ABR_CHA) {{}
+  27  var int n;
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0027, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0027, 0005] (0012,              TIP_INT) {int}
+              [0027, 0009] (0011,        IDENTIFICADOR) {n}
+          DeclVarAux = Atr
+          Atr = epsilon
+              [0027, 0010] (0009,              PON_VIR) {;}
+  28  var int i;
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0028, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0028, 0005] (0012,              TIP_INT) {int}
+              [0028, 0009] (0011,        IDENTIFICADOR) {i}
+          DeclVarAux = Atr
+          Atr = epsilon
+              [0028, 0010] (0009,              PON_VIR) {;}
+  29  print("Digite o tamanho do array: ");
+          LSent = Sent LSent
+          Sent = Command
+          Command = Print ';'
+          Print = 'print' '(' ExpConcat ')'
+              [0029, 0001] (0033,               OUTPUT) {print}
+              [0029, 0006] (0003,              ABR_PAR) {(}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_str'
+              [0029, 0007] (0041,              CON_STR) {"Digite o tamanho do array: "}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0029, 0036] (0002,              FEC_PAR) {)}
+              [0029, 0037] (0009,              PON_VIR) {;}
+  30  read(n);
+          LSent = Sent LSent
+          Sent = Command
+          Command = Read ';'
+          Read = 'read' '(' LParamRead ')'
+              [0030, 0001] (0032,                INPUT) {read}
+              [0030, 0005] (0003,              ABR_PAR) {(}
+          LParamRead = ParamRead LParamReadR
+              [0030, 0006] (0011,        IDENTIFICADOR) {n}
+          ParamReadR = epsilon
+          LParamReadR = epsilon
+              [0030, 0007] (0002,              FEC_PAR) {)}
+              [0030, 0008] (0009,              PON_VIR) {;}
+  31  var int a[n];
+          LSent = Sent LSent
+          Sent = DeclVar
+          DeclVar = 'var' Type 'id' DeclVarAux ';'
+              [0031, 0001] (0031,                  VAR) {var}
+          Type = 'int'
+              [0031, 0005] (0012,              TIP_INT) {int}
+              [0031, 0009] (0011,        IDENTIFICADOR) {a}
+          DeclVarAux = '[' ExpArit ']' Atr
+              [0031, 0010] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0031, 0011] (0011,        IDENTIFICADOR) {n}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0031, 0012] (0007,              FEC_COL) {]}
+          Atr = epsilon
+              [0031, 0013] (0009,              PON_VIR) {;}
+  32  
+  33  
+  34  for(i in 0 to n){
+          LSent = Sent LSent
+          Sent = Command
+          Command = For
+          For = 'for' '(' 'id' 'in' ExpArit 'to' ExpArit Step ')' '{'LSent'}'
+              [0034, 0001] (0026,                  FOR) {for}
+              [0034, 0004] (0003,              ABR_PAR) {(}
+              [0034, 0005] (0011,        IDENTIFICADOR) {i}
+              [0034, 0007] (0027,                   IN) {in}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0034, 0010] (0037,              CON_INT) {0}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0034, 0012] (0028,                   TO) {to}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0034, 0015] (0011,        IDENTIFICADOR) {n}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          Step = epsilon
+              [0034, 0016] (0002,              FEC_PAR) {)}
+              [0034, 0017] (0004,              ABR_CHA) {{}
+  35  read(a[i]);
+          LSent = Sent LSent
+          Sent = Command
+          Command = Read ';'
+          Read = 'read' '(' LParamRead ')'
+              [0035, 0001] (0032,                INPUT) {read}
+              [0035, 0005] (0003,              ABR_PAR) {(}
+          LParamRead = ParamRead LParamReadR
+              [0035, 0006] (0011,        IDENTIFICADOR) {a}
+          ParamReadR ='[' ExpArit ']'
+              [0035, 0007] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0035, 0008] (0011,        IDENTIFICADOR) {i}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0035, 0009] (0007,              FEC_COL) {]}
+          LParamReadR = epsilon
+              [0035, 0010] (0002,              FEC_PAR) {)}
+              [0035, 0011] (0009,              PON_VIR) {;}
+  36  }
+          LSent = epsilon
+              [0036, 0001] (0005,              FEC_CHA) {}}
+  37  
+  38  print("Array original: ");
+          LSent = Sent LSent
+          Sent = Command
+          Command = Print ';'
+          Print = 'print' '(' ExpConcat ')'
+              [0038, 0001] (0033,               OUTPUT) {print}
+              [0038, 0006] (0003,              ABR_PAR) {(}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_str'
+              [0038, 0007] (0041,              CON_STR) {"Array original: "}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0038, 0025] (0002,              FEC_PAR) {)}
+              [0038, 0026] (0009,              PON_VIR) {;}
+  39  for(i in 0 to n){
+          LSent = Sent LSent
+          Sent = Command
+          Command = For
+          For = 'for' '(' 'id' 'in' ExpArit 'to' ExpArit Step ')' '{'LSent'}'
+              [0039, 0001] (0026,                  FOR) {for}
+              [0039, 0004] (0003,              ABR_PAR) {(}
+              [0039, 0005] (0011,        IDENTIFICADOR) {i}
+              [0039, 0007] (0027,                   IN) {in}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0039, 0010] (0037,              CON_INT) {0}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0039, 0012] (0028,                   TO) {to}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0039, 0015] (0011,        IDENTIFICADOR) {n}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          Step = epsilon
+              [0039, 0016] (0002,              FEC_PAR) {)}
+              [0039, 0017] (0004,              ABR_CHA) {{}
+  40  print(a[i] ++ " ");
+          LSent = Sent LSent
+          Sent = Command
+          Command = Print ';'
+          Print = 'print' '(' ExpConcat ')'
+              [0040, 0001] (0033,               OUTPUT) {print}
+              [0040, 0006] (0003,              ABR_PAR) {(}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0040, 0007] (0011,        IDENTIFICADOR) {a}
+          FatAritR = '[' ExpArit ']' 
+              [0040, 0008] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0040, 0009] (0011,        IDENTIFICADOR) {i}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0040, 0010] (0007,              FEC_COL) {]}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = '++' ExpBool ExpConcatR
+              [0040, 0012] (0022,              OPE_CON) {++}
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_str'
+              [0040, 0015] (0041,              CON_STR) {" "}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0040, 0018] (0002,              FEC_PAR) {)}
+              [0040, 0019] (0009,              PON_VIR) {;}
+  41  }
+          LSent = epsilon
+              [0041, 0001] (0005,              FEC_CHA) {}}
+  42  
+  43  shellsort(a, n);
+          LSent = Sent LSent
+          Sent = Command
+              [0043, 0001] (0011,        IDENTIFICADOR) {shellsort}
+          CommandR = (' LArg ')' 
+              [0043, 0010] (0003,              ABR_PAR) {(}
+          LArg = Arg LArgR
+          Arg = ExpConcat
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0043, 0011] (0011,        IDENTIFICADOR) {a}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+          LArgR = ',' Arg LArgR
+              [0043, 0012] (0008,              VIRGULA) {,}
+          Arg = ExpConcat
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0043, 0014] (0011,        IDENTIFICADOR) {n}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+          LArgR = epsilon
+              [0043, 0015] (0002,              FEC_PAR) {)}
+              [0043, 0016] (0009,              PON_VIR) {;}
+  44  
+  45  print("Array ordenado: ");
+          LSent = Sent LSent
+          Sent = Command
+          Command = Print ';'
+          Print = 'print' '(' ExpConcat ')'
+              [0045, 0001] (0033,               OUTPUT) {print}
+              [0045, 0006] (0003,              ABR_PAR) {(}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_str'
+              [0045, 0007] (0041,              CON_STR) {"Array ordenado: "}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0045, 0025] (0002,              FEC_PAR) {)}
+              [0045, 0026] (0009,              PON_VIR) {;}
+  46  for(i in 0 to n){
+          LSent = Sent LSent
+          Sent = Command
+          Command = For
+          For = 'for' '(' 'id' 'in' ExpArit 'to' ExpArit Step ')' '{'LSent'}'
+              [0046, 0001] (0026,                  FOR) {for}
+              [0046, 0004] (0003,              ABR_PAR) {(}
+              [0046, 0005] (0011,        IDENTIFICADOR) {i}
+              [0046, 0007] (0027,                   IN) {in}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0046, 0010] (0037,              CON_INT) {0}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0046, 0012] (0028,                   TO) {to}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0046, 0015] (0011,        IDENTIFICADOR) {n}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          Step = epsilon
+              [0046, 0016] (0002,              FEC_PAR) {)}
+              [0046, 0017] (0004,              ABR_CHA) {{}
+  47  print(a[i] ++ " ");
+          LSent = Sent LSent
+          Sent = Command
+          Command = Print ';'
+          Print = 'print' '(' ExpConcat ')'
+              [0047, 0001] (0033,               OUTPUT) {print}
+              [0047, 0006] (0003,              ABR_PAR) {(}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0047, 0007] (0011,        IDENTIFICADOR) {a}
+          FatAritR = '[' ExpArit ']' 
+              [0047, 0008] (0006,              ABR_COL) {[}
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'id' FatAritR
+              [0047, 0009] (0011,        IDENTIFICADOR) {i}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+              [0047, 0010] (0007,              FEC_COL) {]}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = '++' ExpBool ExpConcatR
+              [0047, 0012] (0022,              OPE_CON) {++}
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_str'
+              [0047, 0015] (0041,              CON_STR) {" "}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0047, 0018] (0002,              FEC_PAR) {)}
+              [0047, 0019] (0009,              PON_VIR) {;}
+  48  }
+          LSent = epsilon
+              [0048, 0001] (0005,              FEC_CHA) {}}
+  49  
+  50  
+  51  return 0;
+          LSent = Sent LSent
+          Sent = Command
+          Command = Return
+          Return = 'return' ExpConcat ';'
+              [0051, 0001] (0023,               RETURN) {return}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0051, 0008] (0037,              CON_INT) {0}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0051, 0009] (0009,              PON_VIR) {;}
+  52  }
+          LSent = epsilon
+              [0052, 0001] (0005,              FEC_CHA) {}}
+  52  EOF
+          LDeclr = epsilon

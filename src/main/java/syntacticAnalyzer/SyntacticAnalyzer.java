@@ -37,9 +37,9 @@ public class SyntacticAnalyzer {
 
     //LDeclr = Decl LDeclr | epsilon
     public void fLDeclR() {
-        System.out.printf("          %s\n", "LDeclr = Decl LDeclr");
 
         if (token.getCategory() == Category.VAR || token.getCategory() == Category.FUN) {
+            System.out.printf("          %s\n", "LDeclr = Decl LDeclr");
             fDecl();
             fLDeclR();
         } else {
@@ -726,28 +726,22 @@ public class SyntacticAnalyzer {
         }
     }
 
-    //TermBool = '!' TermBool | ExpArit TermBoolR
+    //TermBool = '!' TermBool | ExpArit 'opr_rel' ExpArit | ExpArit
     public void fTermBool(){
         if(token.getCategory() == Category.OPE_NEG){
             System.out.printf("          %s\n", "TermBool = '!' TermBool");
             nextToken();
             fTermBool();
-        }else{
-            System.out.printf("          %s\n", "TermBool = ExpArit TermBoolR");
-            fExpArit();
-            fTermBoolR();
-        }
-    }
-
-    //TermBoolR = 'opr_rel' ExpArit TermBoolR | epsilon
-    public void fTermBoolR(){
-        if(token.getCategory() == Category.OPE_REL){
-            System.out.printf("          %s\n", "TermBoolR = 'opr_rel' ExpArit TermBoolR ");
-            nextToken();
-            fExpArit();
-            fTermBoolR();
         }else {
-            System.out.printf("          %s\n", "TermBoolR = epsilon");
+            fExpArit();
+            if(token.getCategory() == Category.OPE_REL){
+                System.out.printf("          %s\n", "TermBool = ExpArit 'opr_rel' ExpArit");
+                nextToken();
+                fExpArit();
+            }else{
+                System.out.printf("          %s\n", "TermBool = ExpArit");
+
+            }
         }
     }
 

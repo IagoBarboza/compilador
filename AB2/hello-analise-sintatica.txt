@@ -1,0 +1,61 @@
+   1  fun int main(){
+          Program = LDecl
+          LDecl = Decl LDeclr
+          Decl = DeclFun
+          DeclFun = 'fun' TypeF 'id'  '(' LParam ')''{' LSent '}'
+              [0001, 0001] (0034,                  FUN) {fun}
+          TypeF = Type
+          Type = 'int'
+              [0001, 0005] (0012,              TIP_INT) {int}
+              [0001, 0009] (0011,        IDENTIFICADOR) {main}
+              [0001, 0013] (0003,              ABR_PAR) {(}
+          LParam = epsilon
+              [0001, 0014] (0002,              FEC_PAR) {)}
+              [0001, 0015] (0004,              ABR_CHA) {{}
+   2     print("Alo Mundo ");
+          LSent = Sent LSent
+          Sent = Command
+          Command = Print ';'
+          Print = 'print' '(' ExpConcat ')'
+              [0002, 0004] (0033,               OUTPUT) {print}
+              [0002, 0009] (0003,              ABR_PAR) {(}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_str'
+              [0002, 0010] (0041,              CON_STR) {"Alo Mundo "}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0002, 0022] (0002,              FEC_PAR) {)}
+              [0002, 0023] (0009,              PON_VIR) {;}
+   3     return 0;
+          LSent = Sent LSent
+          Sent = Command
+          Command = Return
+          Return = 'return' ExpConcat ';'
+              [0003, 0004] (0023,               RETURN) {return}
+          ExpConcat = ExpBool ExpConcatR
+          ExpBool = TermBool ExpBoolR
+          ExpArit = TermArit ExpAritR
+          TermArit = ExpLim TermAritR
+          ExpLim = FatArit ExpLimR
+          FatArit = 'cte_int'
+              [0003, 0011] (0037,              CON_INT) {0}
+          ExpLimR = epsilon
+          TermAritR = epsilon
+          ExpAritR = epsilon
+          TermBool = ExpArit
+          ExpBoolR = epsilon
+          ExpConcatR = epsilon
+              [0003, 0012] (0009,              PON_VIR) {;}
+   4  }
+          LSent = epsilon
+              [0004, 0001] (0005,              FEC_CHA) {}}
+   4  EOF
+          LDeclr = epsilon
