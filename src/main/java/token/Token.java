@@ -46,7 +46,7 @@ public class Token {
     }
 
     public void printFormatedToken(){
-        System.out.printf("        [%04d, %04d] (%04d, %20s) {%s}\n", this.getLine(), this.getColumn(), this.getCategory().getValue(), this.getCategory(), this.getLexicalValue());
+        System.out.printf("              [%04d, %04d] (%04d, %20s) {%s}\n", this.getLine(), this.getColumn(), this.getCategory().getValue(), this.getCategory(), this.getLexicalValue());
     }
 
 }
