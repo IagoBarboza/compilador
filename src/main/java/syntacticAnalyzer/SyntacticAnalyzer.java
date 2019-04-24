@@ -807,6 +807,7 @@ public class SyntacticAnalyzer {
 
     /**
      *     FatArit = 'id' FatAritR
+     *     FatArit = '-' FatArit
      *     FatArit = 'opa_nega' FatArit
      *     FatArit = 'cte_int'
      *     FatArit = 'cte_float'
@@ -820,6 +821,10 @@ public class SyntacticAnalyzer {
             System.out.printf("          %s\n", "FatArit = 'id' FatAritR");
             nextToken();
             fFatAritR();
+        }else if(token.getCategory() == Category.OPE_ADI){
+            System.out.printf("          %s\n", "FatArit = '-' FatArit");
+            nextToken();
+            fFatArit();
         }else if (token.getCategory() == Category.CON_INT) {
             System.out.printf("          %s\n", "FatArit = 'cte_int'");
             nextToken();
