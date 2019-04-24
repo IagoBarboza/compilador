@@ -68,7 +68,6 @@ public class SyntacticAnalyzer {
             nextToken();
             fTypeF();
             if (token.getCategory() == Category.IDENTIFICADOR) {
-
                 nextToken();
                 if (token.getCategory() == Category.ABR_PAR) {
                     nextToken();
@@ -290,10 +289,46 @@ public class SyntacticAnalyzer {
      *     FatArit = 'cte_int'
      *     FatArit = 'cte_float'
      *     FatArit = 'cte_char'
-     *     FatArit = 'cte_cad_ch'
+     *     FatArit = 'cte_str'
      *     FatArit = 'cte_bool'
      * **/
-    public void fFatArit(){
+    public void fFatArit() {
+        if (token.getCategory() == Category.IDENTIFICADOR) {
+            nextToken();
+            if (token.getCategory() == Category.ABR_PAR) {
+                nextToken();
+                fLParam();
+                if (token.getCategory() == Category.FEC_PAR) {
+                    nextToken();
+                }else{
+                    printErro("] esperado.");
+                }
 
+            }else if (token.getCategory() == Category.ABR_CHA) {
+                nextToken();
+                fExpArit();
+                if (token.getCategory() == Category.FEC_CHA) {
+                    nextToken();
+                }else{
+                    printErro("} esperado.");
+                }
+            }
+        }else if (token.getCategory() == Category.CON_INT) {
+            nextToken();
+        }else if (token.getCategory() == Category.CON_FLO) {
+            nextToken();
+        }else if (token.getCategory() == Category.CON_CHA) {
+            nextToken();
+        }else if (token.getCategory() == Category.CON_STR) {
+            nextToken();
+        }else if (token.getCategory() == Category.CON_BOO) {
+            nextToken();
+        }else{
+            printErro("Identificador ou constante literal esperada.");
+        }
+    }
+
+    private void printErro(String content){
+        System.err.println("Linha: " + token.getLine() +" Coluna:" + token.getColumn() + "Erro: "+  content);
     }
 }
