@@ -259,12 +259,23 @@ public class SyntacticAnalyzer {
             fSent();
             fLSent();
         }
+        else{
+            System.out.printf("          %s\n", "LSent = epsilon");
+        }
 
 
     }
 
     //Sent = DeclVar | Command
     public void fSent(){
+        if(token.getCategory() == Category.VAR){
+            System.out.printf("          %s\n", "Sent = DeclVar");
+            fDeclVar();
+        }
+        else{
+            System.out.printf("          %s\n", "Sent = Command");
+            fCommand();
+        }
 
     }
 
@@ -343,19 +354,19 @@ public class SyntacticAnalyzer {
         }
         else if(token.getCategory() == Category.FOR){
             fFor();
-            nextToken();
+
         }
         else if(token.getCategory() == Category.WHILE){
             fWhile();
-            nextToken();
+
         }
         else if(token.getCategory() == Category.IF){
             fIf();
-            nextToken();
+
         }
         else if(token.getCategory() == Category.RETURN){
             fReturn();
-            nextToken();
+
         }
 
         
@@ -363,6 +374,7 @@ public class SyntacticAnalyzer {
 
     //LArg = Arg LArgR | LArg = epsilon
     public void fLArg(){
+        //if()
 
     }
 
@@ -378,12 +390,30 @@ public class SyntacticAnalyzer {
 
     //Print = 'print' '(' ExpConcat ')'
     public void fPrint(){
-
+        if(token.getCategory() == Category.OUTPUT){
+            nextToken();
+            if(token.getCategory() == Category.ABR_PAR){
+                nextToken();
+                fExpConcat();
+                if(token.getCategory() == Category.FEC_PAR){
+                    nextToken();
+                }
+            }
+        }
     }
 
-    //Read = 'read' '(' LParamR ')'
+    //Read = 'read' '(' LParamRead ')'
     public void fRead(){
-
+        if(token.getCategory() == Category.INPUT){
+            nextToken();
+            if(token.getCategory() == Category.ABR_PAR){
+                nextToken();
+                fLParamRead();
+                if(token.getCategory() == Category.FEC_PAR){
+                    nextToken();
+                }
+            }
+        }
     }
 
     //LParamRead = ParamRead LParamReadR
